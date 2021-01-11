@@ -1,0 +1,5 @@
+{
+  "MongoDBName": "test_db",
+  "MongoDBPort": 27017,
+  "MongoDBHost": "localhost"
+}
