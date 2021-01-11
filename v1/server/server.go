@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	cnf "github.com/cermu/gRPC-blog-app/conf"
-	_ "github.com/cermu/gRPC-blog-app/pb"
 	utl "github.com/cermu/gRPC-blog-app/utils"
+	_ "github.com/cermu/gRPC-blog-app/v1/pb/blog"
 	"google.golang.org/grpc"
 	"log"
 	"net"

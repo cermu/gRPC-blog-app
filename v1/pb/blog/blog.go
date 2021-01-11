@@ -1,4 +1,4 @@
-package pb
+package blog
 
 type Server struct {
 
