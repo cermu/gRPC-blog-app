@@ -11,6 +11,7 @@ import (
 	"net"
 	"os"
 	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 	}
 
 	// create a gRPC server
-	blogServer := &blog.Server{}
+	blogServer := &blog.Server{} // can be written as: new(blog.Server), new returns pointers
 
 	opts := []grpc.ServerOption{}
 	gRPCServer := grpc.NewServer(opts...)
@@ -40,14 +41,14 @@ func main() {
 	}()
 
 	// shutting down the application gracefully
-	// wait for ctrl + c to exit using a buffered channel
-	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, os.Interrupt)
+	// wait for ctrl + c  signal to exit
+	ch := make(chan os.Signal)
+	signal.Notify(ch, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	// block un till a signal is received in the above channel
-	<-ch
+	// block until a signal is received
+	receivedSignal := <-ch
 
-	log.Println("INFO | Stopping gRPC server...")
+	log.Printf("INFO | Stopping gRPC server, signal: %v received.\n", receivedSignal.String())
 	gRPCServer.Stop()
 
 	if lis != nil {
