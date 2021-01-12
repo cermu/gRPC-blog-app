@@ -29,7 +29,8 @@ func main() {
 
 	// Implementing BlogServiceClient interface from blog.pb.go
 	c := blog.NewBlogServiceClient(conn)
-	createAuthor(c)
+	//createAuthor(c)
+	fetchAuthor(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -59,4 +60,19 @@ func createAuthor(c blog.BlogServiceClient) {
 		log.Println(err)
 	}
 	log.Printf("INFO | Response from CreateAuthor gRPC: %v\n", response.GetAuthor())
+}
+
+// fetchAuthor private function that calls CreateAuthor gRPC method on gRPC server
+func fetchAuthor(c blog.BlogServiceClient) {
+	log.Println("INFO | Starting a FetchAuthor unary gRPC")
+
+	fetchAuthorReq := &blog.FetchAuthorRequest{
+		AuthorId: "5ffd6e13de19e0a9724b9b20",
+	}
+
+	response, err := c.FetchAuthor(context.Background(), fetchAuthorReq)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("INFO | Response from FetchAuthor gRPC: %v\n", response.GetAuthor())
 }

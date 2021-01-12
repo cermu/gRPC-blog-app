@@ -45,7 +45,17 @@ message CreateAuthorResponse {
   Author author = 1; // will contain an ID of the created Author if successful
 }
 
+message FetchAuthorRequest {
+  string author_id = 1;
+}
+
+message FetchAuthorResponse {
+  Author author = 1;
+}
+
 service BlogService {
   // A unary RPC to create an author
   rpc CreateAuthor (CreateAuthorRequest) returns (CreateAuthorResponse){};
+  // A unary RPC to fetch a single author, return NOTFOUND if not found
+  rpc FetchAuthor (FetchAuthorRequest) returns (FetchAuthorResponse){};
 }

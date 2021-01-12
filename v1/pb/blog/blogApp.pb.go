@@ -410,6 +410,100 @@ func (x *CreateAuthorResponse) GetAuthor() *Author {
 	return nil
 }
 
+type FetchAuthorRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	AuthorId string `protobuf:"bytes,1,opt,name=author_id,json=authorId,proto3" json:"author_id,omitempty"`
+}
+
+func (x *FetchAuthorRequest) Reset() {
+	*x = FetchAuthorRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_pb_blog_blogApp_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FetchAuthorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FetchAuthorRequest) ProtoMessage() {}
+
+func (x *FetchAuthorRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_pb_blog_blogApp_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FetchAuthorRequest.ProtoReflect.Descriptor instead.
+func (*FetchAuthorRequest) Descriptor() ([]byte, []int) {
+	return file_v1_pb_blog_blogApp_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *FetchAuthorRequest) GetAuthorId() string {
+	if x != nil {
+		return x.AuthorId
+	}
+	return ""
+}
+
+type FetchAuthorResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Author *Author `protobuf:"bytes,1,opt,name=author,proto3" json:"author,omitempty"`
+}
+
+func (x *FetchAuthorResponse) Reset() {
+	*x = FetchAuthorResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_v1_pb_blog_blogApp_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *FetchAuthorResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FetchAuthorResponse) ProtoMessage() {}
+
+func (x *FetchAuthorResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_v1_pb_blog_blogApp_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FetchAuthorResponse.ProtoReflect.Descriptor instead.
+func (*FetchAuthorResponse) Descriptor() ([]byte, []int) {
+	return file_v1_pb_blog_blogApp_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *FetchAuthorResponse) GetAuthor() *Author {
+	if x != nil {
+		return x.Author
+	}
+	return nil
+}
+
 var File_v1_pb_blog_blogApp_proto protoreflect.FileDescriptor
 
 var file_v1_pb_blog_blogApp_proto_rawDesc = []byte{
@@ -460,14 +554,25 @@ var file_v1_pb_blog_blogApp_proto_rawDesc = []byte{
 	0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x24, 0x0a, 0x06,
 	0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x62,
 	0x6c, 0x6f, 0x67, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x06, 0x61, 0x75, 0x74, 0x68,
-	0x6f, 0x72, 0x32, 0x56, 0x0a, 0x0b, 0x42, 0x6c, 0x6f, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63,
-	0x65, 0x12, 0x47, 0x0a, 0x0c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68, 0x6f,
-	0x72, 0x12, 0x19, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41,
-	0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x62,
-	0x6c, 0x6f, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2e, 0x2f,
-	0x76, 0x31, 0x2f, 0x70, 0x62, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x33,
+	0x6f, 0x72, 0x22, 0x31, 0x0a, 0x12, 0x46, 0x65, 0x74, 0x63, 0x68, 0x41, 0x75, 0x74, 0x68, 0x6f,
+	0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1b, 0x0a, 0x09, 0x61, 0x75, 0x74, 0x68,
+	0x6f, 0x72, 0x5f, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08, 0x61, 0x75, 0x74,
+	0x68, 0x6f, 0x72, 0x49, 0x64, 0x22, 0x3b, 0x0a, 0x13, 0x46, 0x65, 0x74, 0x63, 0x68, 0x41, 0x75,
+	0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x24, 0x0a, 0x06,
+	0x61, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e, 0x62,
+	0x6c, 0x6f, 0x67, 0x2e, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x06, 0x61, 0x75, 0x74, 0x68,
+	0x6f, 0x72, 0x32, 0x9c, 0x01, 0x0a, 0x0b, 0x42, 0x6c, 0x6f, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x12, 0x47, 0x0a, 0x0c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68,
+	0x6f, 0x72, 0x12, 0x19, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
+	0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e,
+	0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68, 0x6f,
+	0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x44, 0x0a, 0x0b, 0x46,
+	0x65, 0x74, 0x63, 0x68, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x12, 0x18, 0x2e, 0x62, 0x6c, 0x6f,
+	0x67, 0x2e, 0x46, 0x65, 0x74, 0x63, 0x68, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x46, 0x65, 0x74, 0x63,
+	0x68, 0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2e, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x62, 0x2f, 0x62, 0x6c, 0x6f,
+	0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -482,13 +587,15 @@ func file_v1_pb_blog_blogApp_proto_rawDescGZIP() []byte {
 	return file_v1_pb_blog_blogApp_proto_rawDescData
 }
 
-var file_v1_pb_blog_blogApp_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_v1_pb_blog_blogApp_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
 var file_v1_pb_blog_blogApp_proto_goTypes = []interface{}{
 	(*Address)(nil),              // 0: blog.Address
 	(*Blog)(nil),                 // 1: blog.Blog
 	(*Author)(nil),               // 2: blog.Author
 	(*CreateAuthorRequest)(nil),  // 3: blog.CreateAuthorRequest
 	(*CreateAuthorResponse)(nil), // 4: blog.CreateAuthorResponse
+	(*FetchAuthorRequest)(nil),   // 5: blog.FetchAuthorRequest
+	(*FetchAuthorResponse)(nil),  // 6: blog.FetchAuthorResponse
 }
 var file_v1_pb_blog_blogApp_proto_depIdxs = []int32{
 	2, // 0: blog.Blog.author_id:type_name -> blog.Author
@@ -496,13 +603,16 @@ var file_v1_pb_blog_blogApp_proto_depIdxs = []int32{
 	1, // 2: blog.Author.blog_id:type_name -> blog.Blog
 	2, // 3: blog.CreateAuthorRequest.author:type_name -> blog.Author
 	2, // 4: blog.CreateAuthorResponse.author:type_name -> blog.Author
-	3, // 5: blog.BlogService.CreateAuthor:input_type -> blog.CreateAuthorRequest
-	4, // 6: blog.BlogService.CreateAuthor:output_type -> blog.CreateAuthorResponse
-	6, // [6:7] is the sub-list for method output_type
-	5, // [5:6] is the sub-list for method input_type
-	5, // [5:5] is the sub-list for extension type_name
-	5, // [5:5] is the sub-list for extension extendee
-	0, // [0:5] is the sub-list for field type_name
+	2, // 5: blog.FetchAuthorResponse.author:type_name -> blog.Author
+	3, // 6: blog.BlogService.CreateAuthor:input_type -> blog.CreateAuthorRequest
+	5, // 7: blog.BlogService.FetchAuthor:input_type -> blog.FetchAuthorRequest
+	4, // 8: blog.BlogService.CreateAuthor:output_type -> blog.CreateAuthorResponse
+	6, // 9: blog.BlogService.FetchAuthor:output_type -> blog.FetchAuthorResponse
+	8, // [8:10] is the sub-list for method output_type
+	6, // [6:8] is the sub-list for method input_type
+	6, // [6:6] is the sub-list for extension type_name
+	6, // [6:6] is the sub-list for extension extendee
+	0, // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_v1_pb_blog_blogApp_proto_init() }
@@ -571,6 +681,30 @@ func file_v1_pb_blog_blogApp_proto_init() {
 				return nil
 			}
 		}
+		file_v1_pb_blog_blogApp_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FetchAuthorRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_v1_pb_blog_blogApp_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*FetchAuthorResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -578,7 +712,7 @@ func file_v1_pb_blog_blogApp_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_v1_pb_blog_blogApp_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   7,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
@@ -606,6 +740,8 @@ const _ = grpc.SupportPackageIsVersion6
 type BlogServiceClient interface {
 	// A unary RPC to create an author
 	CreateAuthor(ctx context.Context, in *CreateAuthorRequest, opts ...grpc.CallOption) (*CreateAuthorResponse, error)
+	// A unary RPC to fetch a single author, return NOTFOUND if not found
+	FetchAuthor(ctx context.Context, in *FetchAuthorRequest, opts ...grpc.CallOption) (*FetchAuthorResponse, error)
 }
 
 type blogServiceClient struct {
@@ -625,10 +761,21 @@ func (c *blogServiceClient) CreateAuthor(ctx context.Context, in *CreateAuthorRe
 	return out, nil
 }
 
+func (c *blogServiceClient) FetchAuthor(ctx context.Context, in *FetchAuthorRequest, opts ...grpc.CallOption) (*FetchAuthorResponse, error) {
+	out := new(FetchAuthorResponse)
+	err := c.cc.Invoke(ctx, "/blog.BlogService/FetchAuthor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BlogServiceServer is the server API for BlogService service.
 type BlogServiceServer interface {
 	// A unary RPC to create an author
 	CreateAuthor(context.Context, *CreateAuthorRequest) (*CreateAuthorResponse, error)
+	// A unary RPC to fetch a single author, return NOTFOUND if not found
+	FetchAuthor(context.Context, *FetchAuthorRequest) (*FetchAuthorResponse, error)
 }
 
 // UnimplementedBlogServiceServer can be embedded to have forward compatible implementations.
@@ -637,6 +784,9 @@ type UnimplementedBlogServiceServer struct {
 
 func (*UnimplementedBlogServiceServer) CreateAuthor(context.Context, *CreateAuthorRequest) (*CreateAuthorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAuthor not implemented")
+}
+func (*UnimplementedBlogServiceServer) FetchAuthor(context.Context, *FetchAuthorRequest) (*FetchAuthorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FetchAuthor not implemented")
 }
 
 func RegisterBlogServiceServer(s *grpc.Server, srv BlogServiceServer) {
@@ -661,6 +811,24 @@ func _BlogService_CreateAuthor_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BlogService_FetchAuthor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FetchAuthorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlogServiceServer).FetchAuthor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.BlogService/FetchAuthor",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlogServiceServer).FetchAuthor(ctx, req.(*FetchAuthorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _BlogService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "blog.BlogService",
 	HandlerType: (*BlogServiceServer)(nil),
@@ -668,6 +836,10 @@ var _BlogService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateAuthor",
 			Handler:    _BlogService_CreateAuthor_Handler,
+		},
+		{
+			MethodName: "FetchAuthor",
+			Handler:    _BlogService_FetchAuthor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
