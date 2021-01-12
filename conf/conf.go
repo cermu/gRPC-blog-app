@@ -13,6 +13,7 @@ type configuration struct {
 	MongoDBPort int32
 	MongoDBHost string
 	ApplicationPort int32
+	GrpcHost string
 }
 
 const ENV  = "dev"

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	cnf "github.com/cermu/gRPC-blog-app/conf"
 	utl "github.com/cermu/gRPC-blog-app/utils"
+	"github.com/cermu/gRPC-blog-app/v1/pb/blog"
 	_ "github.com/cermu/gRPC-blog-app/v1/pb/blog"
 	"google.golang.org/grpc"
 	"log"
@@ -23,10 +24,11 @@ func main() {
 	}
 
 	// create a gRPC server
-	// blogServer := &pb.Server{}
+	blogServer := &blog.Server{}
 
 	opts := []grpc.ServerOption{}
 	gRPCServer := grpc.NewServer(opts...)
+	blog.RegisterBlogServiceServer(gRPCServer, blogServer)
 
 	// start the server in a go routine
 	go func() {

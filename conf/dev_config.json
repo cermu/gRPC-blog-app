@@ -2,5 +2,6 @@
   "MongoDBName": "test_db",
   "MongoDBPort": 27017,
   "MongoDBHost": "localhost",
-  "ApplicationPort": 50051
+  "ApplicationPort": 50051,
+  "GrpcHost": "localhost"
 }

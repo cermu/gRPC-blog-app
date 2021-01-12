@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-import "google/protobuf/timestamp.proto";
-
 package blog;
 
 // output of the generated file/code
@@ -13,8 +11,8 @@ message Address {
   string country = 3;
   string zip_code = 4;
   string postal_address = 5;
-  google.protobuf.Timestamp created = 6;
-  google.protobuf.Timestamp updated = 7;
+  string created = 6;
+  string updated = 7;
 }
 
 message Blog {
@@ -23,8 +21,8 @@ message Blog {
   string content = 3;
   // list of authors
   repeated Author author_id = 4;
-  google.protobuf.Timestamp created = 5;
-  google.protobuf.Timestamp updated = 6;
+  string created = 5;
+  string updated = 6;
 }
 
 message Author {
@@ -32,12 +30,11 @@ message Author {
   string first_name = 2;
   string last_name = 3;
   string email = 4;
-  // list of addresses
-  repeated Address address_id = 5;
+  Address address = 5;
   // list of blog items
   repeated Blog blog_id = 6;
-  google.protobuf.Timestamp created = 7;
-  google.protobuf.Timestamp updated = 8;
+  string created = 7;
+  string updated = 8;
 }
 
 message CreateAuthorRequest {
