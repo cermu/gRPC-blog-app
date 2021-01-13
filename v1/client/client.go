@@ -29,9 +29,10 @@ func main() {
 
 	// Implementing BlogServiceClient interface from blog.pb.go
 	c := blog.NewBlogServiceClient(conn)
-	//createAuthor(c)
+	// createAuthor(c)
 	// fetchAuthor(c)
 	updateAuthor(c)
+	// deleteAuthor(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -83,7 +84,7 @@ func updateAuthor(c blog.BlogServiceClient) {
 	log.Println("INFO | Starting an UpdateAuthor unary gRPC")
 
 	address := &blog.Address{
-		Id:            "5ffd6b06bd02eeada4eadd0f",
+		Id:            "5ffed8580dfec66815713941",
 		City:          "Mombasa",
 		Country:       "Kenya",
 		ZipCode:       "00570",
@@ -91,7 +92,7 @@ func updateAuthor(c blog.BlogServiceClient) {
 	}
 
 	author := &blog.Author{
-		Id:        "5ffd6b06bd02eeada4eadd10",
+		Id:        "5ffed8580dfec66815713942",
 		FirstName: "Jane",
 		LastName:  "Doe",
 		Email:     "janedoe@yahoo.com",
@@ -107,4 +108,19 @@ func updateAuthor(c blog.BlogServiceClient) {
 		log.Println(err)
 	}
 	log.Printf("INFO | Response from UpdateAuthor gRPC: %v\n", response.GetAuthor())
+}
+
+// deleteAuthor private function that calls DeleteAuthor gRPC method on gRPC server
+func deleteAuthor(c blog.BlogServiceClient) {
+	log.Println("INFO | Starting a DeleteAuthor unary gRPC")
+
+	deleteAuthorRequest := &blog.DeleteAuthorRequest{
+		AuthorId: "5ffd6e13de19e0a9724b9b20",
+	}
+
+	response, err := c.DeleteAuthor(context.Background(), deleteAuthorRequest)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("INFO | Response from DeleteAuthor gRPC: %v\n", response.GetDeleteResponse())
 }

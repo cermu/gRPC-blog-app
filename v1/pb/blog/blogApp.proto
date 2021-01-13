@@ -67,6 +67,14 @@ message UpdateAuthorResponse {
   Author author = 1;
 }
 
+message DeleteAuthorRequest {
+  string author_id = 1;
+}
+
+message DeleteAuthorResponse {
+  string delete_response = 1;
+}
+
 service BlogService {
   // A unary RPC to create an author
   rpc CreateAuthor (CreateAuthorRequest) returns (CreateAuthorResponse){};
@@ -74,4 +82,6 @@ service BlogService {
   rpc FetchAuthor (FetchAuthorRequest) returns (FetchAuthorResponse){};
   // A unary RPC to update an author, return NOTFOUND if not found
   rpc UpdateAuthor (UpdateAuthorRequest) returns (UpdateAuthorResponse){};
+  // A unary RPC to delete an author, return NOTFOUND if not found
+  rpc DeleteAuthor (DeleteAuthorRequest) returns (DeleteAuthorResponse){};
 }

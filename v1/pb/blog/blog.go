@@ -209,6 +209,65 @@ func (*Server) UpdateAuthor(_ context.Context, req *UpdateAuthorRequest) (*Updat
 	}, nil
 }
 
+// DeleteAuthor method
+// implementing BlogServiceServer interface from blogApp.pb.go
+func (*Server) DeleteAuthor(_ context.Context, req *DeleteAuthorRequest) (*DeleteAuthorResponse, error) {
+	log.Printf("INFO | DeleteAuthor method was invoked with request: %v\n", req)
+
+	// retrieve author id from request
+	authorId := req.GetAuthorId()
+	authorOid, err := primitive.ObjectIDFromHex(authorId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			fmt.Sprintf("ERROR | Converting string author id to oid failed: %v", err))
+	}
+
+	// fetch the address id to be deleted
+	authorData := &models.Author{}
+	filter := bson.M{"_id": authorOid}
+
+	results := utl.GetMongoDB().Collection("authors").FindOne(context.Background(), filter)
+	if err := results.Decode(authorData); err != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Cannot find author with specified author id: %v", err))
+	}
+
+	// delete the address first
+	for _, v := range authorData.AddressID {
+		addressOid, addrErr := primitive.ObjectIDFromHex(v)
+		if addrErr != nil {
+			return nil, status.Errorf(codes.InvalidArgument,
+				fmt.Sprintf("ERROR | Converting string address id to oid failed: %v", addrErr))
+		}
+
+		result, err := utl.GetMongoDB().Collection("addresses").DeleteOne(context.Background(), bson.M{"_id": addressOid})
+		if err != nil {
+			log.Printf("WARNING | Deleting address failied with message: %v\n", err)
+			continue
+		}
+
+		if result.DeletedCount > 0 {
+			log.Printf("INFO | Address: %v has been deleted successfully", v)
+		}
+	}
+
+	// delete the author
+	delResults, delErr := utl.GetMongoDB().Collection("authors").DeleteOne(context.Background(), filter)
+	if delErr != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Deleting author failied with message: %v", delErr))
+	}
+	if delResults.DeletedCount > 0 {
+		return &DeleteAuthorResponse{
+			DeleteResponse: fmt.Sprintf("Author: %v has been deleted successfully", authorId),
+		}, nil
+	}
+
+	return &DeleteAuthorResponse{
+		DeleteResponse: "Nothing to delete",
+	}, nil
+}
+
 // authorStructToPbAuthorMessage private function that converts  Author struct
 // to Author message in protobuf definition. It takes a pointer to Author and Address
 // and returns a pointer to Author
