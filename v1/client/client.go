@@ -6,6 +6,7 @@ import (
 	cnf "github.com/cermu/gRPC-blog-app/conf"
 	"github.com/cermu/gRPC-blog-app/v1/pb/blog"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 )
 
@@ -31,8 +32,9 @@ func main() {
 	c := blog.NewBlogServiceClient(conn)
 	// createAuthor(c)
 	// fetchAuthor(c)
-	updateAuthor(c)
+	// updateAuthor(c)
 	// deleteAuthor(c)
+	allAuthors(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -120,7 +122,33 @@ func deleteAuthor(c blog.BlogServiceClient) {
 
 	response, err := c.DeleteAuthor(context.Background(), deleteAuthorRequest)
 	if err != nil {
-		log.Println(err)
+		// log.Println(err)
+		log.Fatal(err)
 	}
 	log.Printf("INFO | Response from DeleteAuthor gRPC: %v\n", response.GetDeleteResponse())
+}
+
+// allAuthors private function that streams AllAuthors gRPC method on gRPC server
+func allAuthors(c blog.BlogServiceClient) {
+	log.Printf("INFO | Starting an AllAuthors server streaming gRPC...\n")
+
+	allAuthorReq := &blog.AllAuthorsRequest{}
+
+	stream, err := c.AllAuthors(context.Background(), allAuthorReq)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for {
+		response, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Println(err)
+		}
+		log.Printf("INFO | Response from AllAuthors server stream gRPC: %v\n", response.GetAuthor())
+	}
+	log.Println("INFO | Streaming Authors from AllAuthors gRPC has completed")
 }

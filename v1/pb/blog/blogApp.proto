@@ -75,6 +75,14 @@ message DeleteAuthorResponse {
   string delete_response = 1;
 }
 
+message AllAuthorsRequest {
+
+}
+
+message AllAuthorsResponse {
+  Author author = 1;
+}
+
 service BlogService {
   // A unary RPC to create an author
   rpc CreateAuthor (CreateAuthorRequest) returns (CreateAuthorResponse){};
@@ -84,4 +92,6 @@ service BlogService {
   rpc UpdateAuthor (UpdateAuthorRequest) returns (UpdateAuthorResponse){};
   // A unary RPC to delete an author, return NOTFOUND if not found
   rpc DeleteAuthor (DeleteAuthorRequest) returns (DeleteAuthorResponse){};
+  // A server streaming RPC to return all authors
+  rpc AllAuthors (AllAuthorsRequest) returns (stream AllAuthorsResponse){};
 }

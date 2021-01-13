@@ -268,6 +268,67 @@ func (*Server) DeleteAuthor(_ context.Context, req *DeleteAuthorRequest) (*Delet
 	}, nil
 }
 
+// AllAuthors method, a server streaming scenario
+func (*Server) AllAuthors(_ *AllAuthorsRequest, stream BlogService_AllAuthorsServer) error {
+	log.Println("INFO | AllAuthors server streaming method was invoked")
+
+	ctx := context.Background()
+	filter := bson.M{} // pass an empty filter to fetch all records
+	cur, err := utl.GetMongoDB().Collection("authors").Find(ctx, filter)
+	if err != nil {
+		return status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Failed to fetch Authors from the DB: %v", err))
+	}
+
+	// close the cursor after use
+	defer func () {
+		if err := cur.Close(ctx); err != nil {
+			log.Printf("WARNING | CLosing MongoDB cursor failed with message: %v\n", err)
+		}
+	}()
+
+	for cur.Next(ctx) {
+		authorData := &models.Author{}
+		if err := cur.Decode(authorData); err != nil {
+			return status.Errorf(codes.Internal, fmt.Sprintf("ERROR | Decoding MongoDB object failed with message: %v", err))
+		}
+
+		// fetch addresses to be returned within the Author message response
+		addressData := &models.Address{}
+		for _, v := range authorData.AddressID {
+			// convert fetched address id to oid
+			oid, err := primitive.ObjectIDFromHex(v)
+			if err != nil {
+				return status.Errorf(codes.InvalidArgument,
+					fmt.Sprintf("ERROR | Converting string fetched address id to oid failed: %v", err))
+			}
+
+			addrResults := utl.GetMongoDB().Collection("addresses").FindOne(context.Background(), bson.M{"_id": oid})
+			if err := addrResults.Decode(addressData); err != nil {
+				return status.Errorf(codes.NotFound,
+					fmt.Sprintf("WARNING | Cannot find address with fetched ID: %v", err))
+			}
+		}
+
+		// send Author response via a stream
+		response := &AllAuthorsResponse{
+			Author: authorStructToPbAuthorMessage(authorData, addressData),
+		}
+
+		streamErr := stream.Send(response)
+		if streamErr != nil {
+			log.Printf("WARNING | Sending server stream response failed with message: %v\n", streamErr)
+		}
+	}
+
+	// handle cur.Err()
+	if err := cur.Err(); err != nil {
+		return status.Errorf(codes.Internal,
+			fmt.Sprintf("ERROR | The following MongoDB cursor error has occurred: %v", err))
+	}
+	return nil
+}
+
 // authorStructToPbAuthorMessage private function that converts  Author struct
 // to Author message in protobuf definition. It takes a pointer to Author and Address
 // and returns a pointer to Author
