@@ -11,9 +11,9 @@ type Author struct {
 	LastName  string             `bson:"last_name"`
 	Email     string             `bson:"email"`
 	AddressID []string          `bson:"address_id,omitempty"`
-	BlogID    []string         `bson:"blog_id,omitempty"`
+	// BlogID    []string         `bson:"blog_id,omitempty"`
 	Created   time.Time          `bson:"created,omitempty"`
-	Updated   time.Time          `bson:"dated,omitempty"`
+	Updated   time.Time          `bson:"updated,omitempty"`
 }
 
 type Address struct {
@@ -23,5 +23,5 @@ type Address struct {
 	ZipCode       string             `bson:"zip_code,omitempty"`
 	PostalAddress string             `bson:"postal_address,omitempty"`
 	Created       time.Time          `bson:"created,omitempty"`
-	Updated       time.Time          `bson:"dated,omitempty"`
+	Updated       time.Time          `bson:"updated,omitempty"`
 }

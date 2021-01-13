@@ -16,23 +16,29 @@ message Address {
 }
 
 message Blog {
+  reserved  4;
+  reserved "author_id";
   string id = 1;
   string title = 2;
   string content = 3;
   // list of authors
-  repeated Author author_id = 4;
+  // repeated Author author_id = 4;
   string created = 5;
   string updated = 6;
+  // list of authors
+  repeated Author authors = 7;
 }
 
 message Author {
+  reserved 6;
+  reserved "blog_id";
   string id = 1;
   string first_name = 2;
   string last_name = 3;
   string email = 4;
   Address address = 5;
   // list of blog items
-  repeated Blog blog_id = 6;
+  // repeated Blog blog_id = 6;
   string created = 7;
   string updated = 8;
 }
@@ -53,9 +59,19 @@ message FetchAuthorResponse {
   Author author = 1;
 }
 
+message UpdateAuthorRequest {
+  Author author = 1;
+}
+
+message UpdateAuthorResponse {
+  Author author = 1;
+}
+
 service BlogService {
   // A unary RPC to create an author
   rpc CreateAuthor (CreateAuthorRequest) returns (CreateAuthorResponse){};
   // A unary RPC to fetch a single author, return NOTFOUND if not found
   rpc FetchAuthor (FetchAuthorRequest) returns (FetchAuthorResponse){};
+  // A unary RPC to update an author, return NOTFOUND if not found
+  rpc UpdateAuthor (UpdateAuthorRequest) returns (UpdateAuthorResponse){};
 }

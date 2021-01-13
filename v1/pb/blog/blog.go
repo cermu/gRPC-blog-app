@@ -133,21 +133,101 @@ func (*Server) FetchAuthor(_ context.Context, req *FetchAuthorRequest) (*FetchAu
 	}
 
 	return &FetchAuthorResponse{
-		Author: &Author{
-			Id: authorData.ID.Hex(),
-			FirstName: authorData.FirstName,
-			LastName: authorData.LastName,
-			Email: authorData.Email,
-			Address: &Address{
-				City: addressData.City,
-				Country: addressData.Country,
-				ZipCode: addressData.ZipCode,
-				PostalAddress: addressData.PostalAddress,
-				Created: addressData.Created.String(),
-				Updated: addressData.Updated.String(),
-			},
-			Created: authorData.Created.String(),
-			Updated: authorData.Updated.String(),
-		},
+		Author: authorStructToPbAuthorMessage(authorData, addressData),
 	}, nil
+}
+
+// UpdateAuthor method
+// implementing BlogServiceServer interface from blogApp.pb.go
+func (*Server) UpdateAuthor(_ context.Context, req *UpdateAuthorRequest) (*UpdateAuthorResponse, error) {
+	log.Printf("INFO | UpdateAuthor method was invoked with request: %v\n", req)
+
+	// retrieve data from request
+	updatedTime := time.Now()
+	author := req.GetAuthor()
+
+	// fetch the address and author to be updated by their ids
+	oid, err := primitive.ObjectIDFromHex(author.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			fmt.Sprintf("ERROR | Converting string author id to oid failed: %v", err))
+	}
+
+	addrOid, addrErr := primitive.ObjectIDFromHex(author.GetAddress().GetId())
+	if addrErr != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			fmt.Sprintf("ERROR | Converting string address id to oid failed: %v", addrErr))
+	}
+
+	// address data
+	addressData := &models.Address{}
+	filter := bson.M{"_id": addrOid}
+	addrResult := utl.GetMongoDB().Collection("addresses").FindOne(context.Background(), filter)
+	if err := addrResult.Decode(addressData); err != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Cannot find address with specified address id: %v", err))
+	}
+	addressData.City = author.GetAddress().GetCity()
+	addressData.Country = author.GetAddress().GetCountry()
+	addressData.ZipCode = author.GetAddress().GetZipCode()
+	addressData.PostalAddress = author.GetAddress().GetPostalAddress()
+	addressData.Updated = updatedTime
+
+	// update the address record in DB
+	_, updateErr := utl.GetMongoDB().Collection("addresses").ReplaceOne(context.Background(), filter, addressData)
+	if updateErr != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("ERROR | Address update failed with message: %v", updateErr))
+	}
+
+	// author data
+	authorData := &models.Author{}
+	filter = bson.M{"_id": oid}
+	result := utl.GetMongoDB().Collection("authors").FindOne(context.Background(), filter)
+	if err := result.Decode(authorData); err != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Cannot find author with specified author id: %v", err))
+	}
+	var addressSlice []string
+	addressSlice = append(addressSlice, author.GetAddress().GetId())
+	authorData.FirstName = author.GetFirstName()
+	authorData.LastName = author.GetLastName()
+	authorData.Email = author.GetEmail()
+	authorData.AddressID = addressSlice
+	authorData.Updated = updatedTime
+
+	// update the author record in DB
+	_, updateErr = utl.GetMongoDB().Collection("authors").ReplaceOne(context.Background(), filter, authorData)
+	if updateErr != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("ERROR | Author update failed with message: %v", updateErr))
+	}
+
+	// return the updated author
+	return &UpdateAuthorResponse{
+		Author: authorStructToPbAuthorMessage(authorData, addressData),
+	}, nil
+}
+
+// authorStructToPbAuthorMessage private function that converts  Author struct
+// to Author message in protobuf definition. It takes a pointer to Author and Address
+// and returns a pointer to Author
+func authorStructToPbAuthorMessage(author *models.Author, address *models.Address) *Author {
+	return &Author{
+		Id:        author.ID.Hex(),
+		FirstName: author.FirstName,
+		LastName:  author.LastName,
+		Email:     author.Email,
+		Address: &Address{
+			Id:            address.ID.Hex(),
+			City:          address.City,
+			Country:       address.Country,
+			ZipCode:       address.ZipCode,
+			PostalAddress: address.PostalAddress,
+			Created:       address.Created.String(),
+			Updated:       address.Updated.String(),
+		},
+		Created: author.Created.String(),
+		Updated: author.Updated.String(),
+	}
 }

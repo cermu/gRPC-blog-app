@@ -11,5 +11,5 @@ type BlogItem struct {
 	Content  string             `bson:"content"`
 	AuthorID []string           `bson:"author_id"`
 	Created  time.Time          `bson:"created,omitempty"`
-	Updated  time.Time          `bson:"dated,omitempty"`
+	Updated  time.Time          `bson:"updated,omitempty"`
 }

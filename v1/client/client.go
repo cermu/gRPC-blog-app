@@ -30,7 +30,8 @@ func main() {
 	// Implementing BlogServiceClient interface from blog.pb.go
 	c := blog.NewBlogServiceClient(conn)
 	//createAuthor(c)
-	fetchAuthor(c)
+	// fetchAuthor(c)
+	updateAuthor(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -38,17 +39,17 @@ func createAuthor(c blog.BlogServiceClient) {
 	log.Println("INFO | Starting a CreateAuthor unary gRPC")
 
 	address := &blog.Address{
-		City: "Nairobi",
-		Country: "Kenya",
-		ZipCode: "00101",
+		City:          "Nairobi",
+		Country:       "Kenya",
+		ZipCode:       "00101",
 		PostalAddress: "243",
 	}
 
 	author := &blog.Author{
 		FirstName: "John",
-		LastName: "Doe",
-		Email: "jdoe@gmail.com",
-		Address: address,
+		LastName:  "Doe",
+		Email:     "jdoe@gmail.com",
+		Address:   address,
 	}
 
 	createAuthorReq := &blog.CreateAuthorRequest{
@@ -75,4 +76,35 @@ func fetchAuthor(c blog.BlogServiceClient) {
 		log.Println(err)
 	}
 	log.Printf("INFO | Response from FetchAuthor gRPC: %v\n", response.GetAuthor())
+}
+
+// updateAuthor private function that calls UpdateAuthor gRPC method on gRPC server
+func updateAuthor(c blog.BlogServiceClient) {
+	log.Println("INFO | Starting an UpdateAuthor unary gRPC")
+
+	address := &blog.Address{
+		Id:            "5ffd6b06bd02eeada4eadd0f",
+		City:          "Mombasa",
+		Country:       "Kenya",
+		ZipCode:       "00570",
+		PostalAddress: "324",
+	}
+
+	author := &blog.Author{
+		Id:        "5ffd6b06bd02eeada4eadd10",
+		FirstName: "Jane",
+		LastName:  "Doe",
+		Email:     "janedoe@yahoo.com",
+		Address:   address,
+	}
+
+	updateAuthorReq := &blog.UpdateAuthorRequest{
+		Author: author,
+	}
+	response, err := c.UpdateAuthor(context.Background(), updateAuthorReq)
+
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("INFO | Response from UpdateAuthor gRPC: %v\n", response.GetAuthor())
 }
