@@ -35,7 +35,8 @@ func main() {
 	// updateAuthor(c)
 	// deleteAuthor(c)
 	// allAuthors(c)
-	createBlog(c)
+	// createBlog(c)
+	fetchBlog(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -67,7 +68,7 @@ func createAuthor(c blog.BlogServiceClient) {
 	log.Printf("INFO | Response from CreateAuthor gRPC: %v\n", response.GetAuthor())
 }
 
-// fetchAuthor private function that calls CreateAuthor gRPC method on gRPC server
+// fetchAuthor private function that calls FetchAuthor gRPC method on gRPC server
 func fetchAuthor(c blog.BlogServiceClient) {
 	log.Println("INFO | Starting a FetchAuthor unary gRPC")
 
@@ -174,4 +175,19 @@ func createBlog(c blog.BlogServiceClient) {
 		log.Println(err)
 	}
 	log.Printf("INFO | Response from CreateBlog gRPC: %v\n", response.GetBlog())
+}
+
+// fetchBlog private function that calls FetchBlog gRPC method on gRPC server
+func fetchBlog(c blog.BlogServiceClient) {
+	log.Println("INFO | Starting a FetchBlog unary gRPC")
+
+	fetchBlogReq := &blog.ReadBlogRequest{
+		BlogId: "600021457ca951f000beda40",
+	}
+
+	response, err := c.FetchBlog(context.Background(), fetchBlogReq)
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("INFO | Response from FetchBlog gRPC: %v\n", response.GetBlog())
 }

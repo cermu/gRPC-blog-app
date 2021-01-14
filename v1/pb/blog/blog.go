@@ -85,3 +85,74 @@ func (*Server) CreateBlog(_ context.Context, req *CreateBlogRequest) (*CreateBlo
 		},
 	}, nil
 }
+
+// FetchBlog method
+// implementing BlogServiceServer interface from blogApp.pb.go
+func (*Server) FetchBlog(_ context.Context, req *ReadBlogRequest) (*ReadBlogResponse, error) {
+	log.Printf("INFO | FetchBLog method was invoked with request: %v\n", req)
+
+	// retrieve blog id from request
+	blogId := req.GetBlogId()
+
+	// convert blogId to oid
+	oid, err := primitive.ObjectIDFromHex(blogId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			fmt.Sprintf("ERROR | Converting string blog id to oid failed: %v", err))
+	}
+
+	// fetch data from DB
+	blogItem := &models.BlogItem{}
+
+	ctx := context.Background()
+	filter := bson.M{"_id": oid}
+	results := utl.GetMongoDB().Collection("blog").FindOne(ctx, filter)
+
+	if err := results.Decode(blogItem); err != nil {
+		return nil, status.Errorf(codes.NotFound,
+			fmt.Sprintf("WARNING | Cannot find blog item with specified ID: %v", err))
+	}
+
+	var authorList []*Author
+	for _, authorEmail := range blogItem.WriterEmail {
+		authorData := &models.Author{}
+		addressData := &models.Address{}
+
+		filter := bson.M{"email": authorEmail}
+		authorResults := utl.GetMongoDB().Collection("authors").FindOne(ctx, filter)
+		if err := authorResults.Decode(authorData); err != nil {
+			return nil, status.Errorf(codes.NotFound,
+				fmt.Sprintf("WARNING | Cannot find author with fetched email address: %v", err))
+		}
+
+		// fetch address details
+		for _, addressId := range authorData.AddressID {
+			addrOid, err := primitive.ObjectIDFromHex(addressId)
+			if err != nil {
+				return nil, status.Errorf(codes.InvalidArgument,
+					fmt.Sprintf("ERROR | Converting string address id to oid failed: %v", err))
+			}
+			filter := bson.M{"_id": addrOid}
+
+			addrResults := utl.GetMongoDB().Collection("addresses").FindOne(ctx, filter)
+			if err := addrResults.Decode(addressData); err != nil {
+				return nil, status.Errorf(codes.NotFound,
+					fmt.Sprintf("WARNING | Cannot find address with fetched address ID: %v", err))
+			}
+		}
+
+		// append authors found in a slice
+		authorList = append(authorList, authorStructToPbAuthorMessage(authorData, addressData))
+	}
+	return &ReadBlogResponse{
+		Blog: &Blog{
+			Id:            blogItem.ID.Hex(),
+			Title:         blogItem.Title,
+			Content:       blogItem.Content,
+			WriterEmail:   blogItem.WriterEmail,
+			AuthorDetails: authorList,
+			Created:       blogItem.Created.String(),
+			Updated:       blogItem.Updated.String(),
+		},
+	}, nil
+}
