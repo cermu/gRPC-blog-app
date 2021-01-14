@@ -34,7 +34,8 @@ func main() {
 	// fetchAuthor(c)
 	// updateAuthor(c)
 	// deleteAuthor(c)
-	allAuthors(c)
+	// allAuthors(c)
+	createBlog(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -151,4 +152,26 @@ func allAuthors(c blog.BlogServiceClient) {
 		log.Printf("INFO | Response from AllAuthors server stream gRPC: %v\n", response.GetAuthor())
 	}
 	log.Println("INFO | Streaming Authors from AllAuthors gRPC has completed")
+}
+
+// createBlog private function that calls CreateBlog gRPC method on gRPC server
+func createBlog(c blog.BlogServiceClient) {
+	log.Println("INFO | Starting a CreateBlog unary gRPC")
+
+	blogData := &blog.Blog{
+		Title: "Golang in 30 mins",
+		Content: "30 minutes of building a golang micro service",
+		WriterEmail: []string{"jdoe@gmail.com"},
+	}
+
+	createBlogReq := &blog.CreateBlogRequest{
+		Blog: blogData,
+	}
+
+	response, err := c.CreateBlog(context.Background(), createBlogReq)
+
+	if err != nil {
+		log.Println(err)
+	}
+	log.Printf("INFO | Response from CreateBlog gRPC: %v\n", response.GetBlog())
 }

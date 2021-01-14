@@ -16,17 +16,17 @@ message Address {
 }
 
 message Blog {
-  reserved  4;
-  reserved "author_id";
+  reserved  4, 7;
+  reserved "author_id", "authors";
   string id = 1;
   string title = 2;
   string content = 3;
-  // list of authors
   // repeated Author author_id = 4;
   string created = 5;
   string updated = 6;
-  // list of authors
-  repeated Author authors = 7;
+  // repeated Author authors = 7;
+  repeated string writer_email = 8;
+  repeated Author author_details = 9;
 }
 
 message Author {
@@ -37,12 +37,12 @@ message Author {
   string last_name = 3;
   string email = 4;
   Address address = 5;
-  // list of blog items
   // repeated Blog blog_id = 6;
   string created = 7;
   string updated = 8;
 }
 
+// Author action messages
 message CreateAuthorRequest {
   Author author = 1;
 }
@@ -83,6 +83,47 @@ message AllAuthorsResponse {
   Author author = 1;
 }
 
+// Blog action messages
+message CreateBlogRequest {
+  Blog blog = 1;
+}
+
+message CreateBlogResponse {
+  Blog blog = 1; // will have a blog id
+}
+
+message ReadBlogRequest {
+  string blog_id = 1;
+}
+
+message ReadBlogResponse {
+  Blog blog = 1;
+}
+
+message UpdateBlogRequest {
+  Blog blog = 1;
+}
+
+message UpdateBlogResponse {
+  Blog blog = 1;
+}
+
+message DeleteBlogRequest {
+  string blog_id = 1;
+}
+
+message DeleteBlogResponse {
+  string delete_response = 1;
+}
+
+message AllBlogRequest {
+
+}
+
+message AllBlogResponse {
+  Blog blog = 1;
+}
+
 service BlogService {
   // A unary RPC to create an author
   rpc CreateAuthor (CreateAuthorRequest) returns (CreateAuthorResponse){};
@@ -94,4 +135,7 @@ service BlogService {
   rpc DeleteAuthor (DeleteAuthorRequest) returns (DeleteAuthorResponse){};
   // A server streaming RPC to return all authors
   rpc AllAuthors (AllAuthorsRequest) returns (stream AllAuthorsResponse){};
+
+  // A unary RPC to create a blog
+  rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse){};
 }

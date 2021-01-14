@@ -9,7 +9,7 @@ type BlogItem struct {
 	ID       primitive.ObjectID `bson:"_id,omitempty"`
 	Title    string             `bson:"title"`
 	Content  string             `bson:"content"`
-	AuthorID []string           `bson:"author_id"`
+	WriterEmail []string        `bson:"authors"`
 	Created  time.Time          `bson:"created,omitempty"`
 	Updated  time.Time          `bson:"updated,omitempty"`
 }
