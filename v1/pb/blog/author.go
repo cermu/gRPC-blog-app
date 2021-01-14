@@ -173,8 +173,12 @@ func (*Server) UpdateAuthor(_ context.Context, req *UpdateAuthorRequest) (*Updat
 	addressData.PostalAddress = author.GetAddress().GetPostalAddress()
 	addressData.Updated = updatedTime
 
+	doc := bson.M{
+		"$set": addressData,
+	}
+
 	// update the address record in DB
-	_, updateErr := utl.GetMongoDB().Collection("addresses").ReplaceOne(context.Background(), filter, addressData)
+	_, updateErr := utl.GetMongoDB().Collection("addresses").UpdateOne(context.Background(), filter, doc)
 	if updateErr != nil {
 		return nil, status.Errorf(codes.Internal,
 			fmt.Sprintf("ERROR | Address update failed with message: %v", updateErr))
@@ -196,8 +200,12 @@ func (*Server) UpdateAuthor(_ context.Context, req *UpdateAuthorRequest) (*Updat
 	authorData.AddressID = addressSlice
 	authorData.Updated = updatedTime
 
+	doc = bson.M{
+		"$set": authorData,
+	}
+
 	// update the author record in DB
-	_, updateErr = utl.GetMongoDB().Collection("authors").ReplaceOne(context.Background(), filter, authorData)
+	_, updateErr = utl.GetMongoDB().Collection("authors").UpdateOne(context.Background(), filter, doc)
 	if updateErr != nil {
 		return nil, status.Errorf(codes.Internal,
 			fmt.Sprintf("ERROR | Author update failed with message: %v", updateErr))

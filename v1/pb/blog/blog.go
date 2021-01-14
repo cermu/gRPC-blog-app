@@ -44,43 +44,42 @@ func (*Server) CreateBlog(_ context.Context, req *CreateBlogRequest) (*CreateBlo
 			fmt.Sprintf("ERROR | An error occurred while converting inserted author id to object id"))
 	}
 
-	// fetch author details to be returned within Blog message
-	var authorSlice []*Author
-	for _, email := range blog.GetWriterEmail() {
-		filter := bson.M{"email": email}
-		authorData := &models.Author{}
-		addressData := &models.Address{}
-
-		results := utl.GetMongoDB().Collection("authors").FindOne(ctx, filter)
-		if err := results.Decode(authorData); err != nil {
-			return nil, status.Errorf(codes.NotFound,
-				fmt.Sprintf("WARNING | Cannot find author with specified ID: %v", err))
-		}
-
-		for _, addressId := range authorData.AddressID {
-			addrOid, err := primitive.ObjectIDFromHex(addressId)
-			if err != nil {
-				return nil, status.Errorf(codes.InvalidArgument,
-					fmt.Sprintf("ERROR | Converting string address id to oid failed: %v", err))
-			}
-
-			filter := bson.M{"_id": addrOid}
-			addrResults := utl.GetMongoDB().Collection("addresses").FindOne(ctx, filter)
-			if err := addrResults.Decode(addressData); err != nil {
-				return nil, status.Errorf(codes.NotFound,
-					fmt.Sprintf("WARNING | Cannot find address with specified ID: %v", err))
-			}
-		}
-		// For every author found, append them in a slice
-		authorSlice = append(authorSlice, authorStructToPbAuthorMessage(authorData, addressData))
-	}
+	//// fetch author details to be returned within Blog message
+	//var authorSlice []*Author
+	//for _, email := range blog.GetWriterEmail() {
+	//	filter := bson.M{"email": email}
+	//	authorData := &models.Author{}
+	//	addressData := &models.Address{}
+	//
+	//	results := utl.GetMongoDB().Collection("authors").FindOne(ctx, filter)
+	//	if err := results.Decode(authorData); err != nil {
+	//		return nil, status.Errorf(codes.NotFound,
+	//			fmt.Sprintf("WARNING | Cannot find author with specified ID: %v", err))
+	//	}
+	//
+	//	for _, addressId := range authorData.AddressID {
+	//		addrOid, err := primitive.ObjectIDFromHex(addressId)
+	//		if err != nil {
+	//			return nil, status.Errorf(codes.InvalidArgument,
+	//				fmt.Sprintf("ERROR | Converting string address id to oid failed: %v", err))
+	//		}
+	//
+	//		filter := bson.M{"_id": addrOid}
+	//		addrResults := utl.GetMongoDB().Collection("addresses").FindOne(ctx, filter)
+	//		if err := addrResults.Decode(addressData); err != nil {
+	//			return nil, status.Errorf(codes.NotFound,
+	//				fmt.Sprintf("WARNING | Cannot find address with specified ID: %v", err))
+	//		}
+	//	}
+	//	// For every author found, append them in a slice
+	//	authorSlice = append(authorSlice, authorStructToPbAuthorMessage(authorData, addressData))
+	//}
 	return &CreateBlogResponse{
 		Blog: &Blog{
 			Id:            oid.Hex(),
 			Title:         blog.GetTitle(),
 			Content:       blog.GetContent(),
 			WriterEmail:   blog.GetWriterEmail(),
-			AuthorDetails: authorSlice,
 			Created:       creationTime.String(),
 		},
 	}, nil
@@ -153,6 +152,52 @@ func (*Server) FetchBlog(_ context.Context, req *ReadBlogRequest) (*ReadBlogResp
 			AuthorDetails: authorList,
 			Created:       blogItem.Created.String(),
 			Updated:       blogItem.Updated.String(),
+		},
+	}, nil
+}
+
+// UpdateBlog method
+// implementing BlogServiceServer interface from blogApp.pb.go
+func (*Server) UpdateBlog(_ context.Context, req *UpdateBlogRequest) (*UpdateBlogResponse, error) {
+	log.Printf("INFO | UpdateBlog method was invoked with request: %v\n", req)
+
+	// retrieve data from request
+	updateTime := time.Now()
+	blogMessage := req.GetBlog()
+
+	oid, err := primitive.ObjectIDFromHex(blogMessage.GetId())
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			fmt.Sprintf("ERROR | Converting string blog id to oid failed: %v", err))
+	}
+	filter := bson.M{"_id": oid}
+
+	// populate BlogItem struct to be used to update
+	// a blog in DB
+	blogItem := &models.BlogItem{}
+	blogItem.ID = oid
+	blogItem.Title = blogMessage.GetTitle()
+	blogItem.Content = blogMessage.GetContent()
+	blogItem.WriterEmail = blogMessage.GetWriterEmail()
+	blogItem.Updated = updateTime
+
+	doc := bson.M{
+		"$set": blogItem,
+	}
+
+	_, updateErr := utl.GetMongoDB().Collection("blog").UpdateOne(context.Background(), filter, doc)
+	if updateErr != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("ERROR | Blog update failed with message: %v", updateErr))
+	}
+	return &UpdateBlogResponse{
+		Blog: &Blog{
+			Id: blogItem.ID.Hex(),
+			Title: blogItem.Title,
+			Content: blogItem.Content,
+			WriterEmail: blogItem.WriterEmail,
+			Created: blogItem.Created.String(),
+			Updated: blogItem.Updated.String(),
 		},
 	}, nil
 }

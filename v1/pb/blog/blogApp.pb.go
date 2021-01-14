@@ -1352,7 +1352,7 @@ var file_v1_pb_blog_blogApp_proto_rawDesc = []byte{
 	0x31, 0x0a, 0x0f, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x12, 0x1e, 0x0a, 0x04, 0x62, 0x6c, 0x6f, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x0a, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x04, 0x62, 0x6c,
-	0x6f, 0x67, 0x32, 0xf4, 0x03, 0x0a, 0x0b, 0x42, 0x6c, 0x6f, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x6f, 0x67, 0x32, 0xb7, 0x04, 0x0a, 0x0b, 0x42, 0x6c, 0x6f, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x12, 0x47, 0x0a, 0x0c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68,
 	0x6f, 0x72, 0x12, 0x19, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e,
@@ -1383,9 +1383,13 @@ var file_v1_pb_blog_blogApp_proto_rawDesc = []byte{
 	0x65, 0x74, 0x63, 0x68, 0x42, 0x6c, 0x6f, 0x67, 0x12, 0x15, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e,
 	0x52, 0x65, 0x61, 0x64, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
 	0x16, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x52, 0x65, 0x61, 0x64, 0x42, 0x6c, 0x6f, 0x67, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c, 0x2e, 0x2f, 0x76,
-	0x31, 0x2f, 0x70, 0x62, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x41, 0x0a, 0x0a, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x67, 0x12, 0x17, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x18, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x6c,
+	0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0e, 0x5a, 0x0c,
+	0x2e, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x62, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1448,15 +1452,17 @@ var file_v1_pb_blog_blogApp_proto_depIdxs = []int32{
 	11, // 18: blog.BlogService.AllAuthors:input_type -> blog.AllAuthorsRequest
 	13, // 19: blog.BlogService.CreateBlog:input_type -> blog.CreateBlogRequest
 	15, // 20: blog.BlogService.FetchBlog:input_type -> blog.ReadBlogRequest
-	4,  // 21: blog.BlogService.CreateAuthor:output_type -> blog.CreateAuthorResponse
-	6,  // 22: blog.BlogService.FetchAuthor:output_type -> blog.FetchAuthorResponse
-	8,  // 23: blog.BlogService.UpdateAuthor:output_type -> blog.UpdateAuthorResponse
-	10, // 24: blog.BlogService.DeleteAuthor:output_type -> blog.DeleteAuthorResponse
-	12, // 25: blog.BlogService.AllAuthors:output_type -> blog.AllAuthorsResponse
-	14, // 26: blog.BlogService.CreateBlog:output_type -> blog.CreateBlogResponse
-	16, // 27: blog.BlogService.FetchBlog:output_type -> blog.ReadBlogResponse
-	21, // [21:28] is the sub-list for method output_type
-	14, // [14:21] is the sub-list for method input_type
+	17, // 21: blog.BlogService.UpdateBlog:input_type -> blog.UpdateBlogRequest
+	4,  // 22: blog.BlogService.CreateAuthor:output_type -> blog.CreateAuthorResponse
+	6,  // 23: blog.BlogService.FetchAuthor:output_type -> blog.FetchAuthorResponse
+	8,  // 24: blog.BlogService.UpdateAuthor:output_type -> blog.UpdateAuthorResponse
+	10, // 25: blog.BlogService.DeleteAuthor:output_type -> blog.DeleteAuthorResponse
+	12, // 26: blog.BlogService.AllAuthors:output_type -> blog.AllAuthorsResponse
+	14, // 27: blog.BlogService.CreateBlog:output_type -> blog.CreateBlogResponse
+	16, // 28: blog.BlogService.FetchBlog:output_type -> blog.ReadBlogResponse
+	18, // 29: blog.BlogService.UpdateBlog:output_type -> blog.UpdateBlogResponse
+	22, // [22:30] is the sub-list for method output_type
+	14, // [14:22] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
 	14, // [14:14] is the sub-list for extension extendee
 	0,  // [0:14] is the sub-list for field type_name
@@ -1791,6 +1797,8 @@ type BlogServiceClient interface {
 	CreateBlog(ctx context.Context, in *CreateBlogRequest, opts ...grpc.CallOption) (*CreateBlogResponse, error)
 	// A unary RPC to fetch a single blog
 	FetchBlog(ctx context.Context, in *ReadBlogRequest, opts ...grpc.CallOption) (*ReadBlogResponse, error)
+	// A unary RPC to update a blog, return NOTFOUND if not found
+	UpdateBlog(ctx context.Context, in *UpdateBlogRequest, opts ...grpc.CallOption) (*UpdateBlogResponse, error)
 }
 
 type blogServiceClient struct {
@@ -1887,6 +1895,15 @@ func (c *blogServiceClient) FetchBlog(ctx context.Context, in *ReadBlogRequest, 
 	return out, nil
 }
 
+func (c *blogServiceClient) UpdateBlog(ctx context.Context, in *UpdateBlogRequest, opts ...grpc.CallOption) (*UpdateBlogResponse, error) {
+	out := new(UpdateBlogResponse)
+	err := c.cc.Invoke(ctx, "/blog.BlogService/UpdateBlog", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // BlogServiceServer is the server API for BlogService service.
 type BlogServiceServer interface {
 	// A unary RPC to create an author
@@ -1903,6 +1920,8 @@ type BlogServiceServer interface {
 	CreateBlog(context.Context, *CreateBlogRequest) (*CreateBlogResponse, error)
 	// A unary RPC to fetch a single blog
 	FetchBlog(context.Context, *ReadBlogRequest) (*ReadBlogResponse, error)
+	// A unary RPC to update a blog, return NOTFOUND if not found
+	UpdateBlog(context.Context, *UpdateBlogRequest) (*UpdateBlogResponse, error)
 }
 
 // UnimplementedBlogServiceServer can be embedded to have forward compatible implementations.
@@ -1929,6 +1948,9 @@ func (*UnimplementedBlogServiceServer) CreateBlog(context.Context, *CreateBlogRe
 }
 func (*UnimplementedBlogServiceServer) FetchBlog(context.Context, *ReadBlogRequest) (*ReadBlogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FetchBlog not implemented")
+}
+func (*UnimplementedBlogServiceServer) UpdateBlog(context.Context, *UpdateBlogRequest) (*UpdateBlogResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateBlog not implemented")
 }
 
 func RegisterBlogServiceServer(s *grpc.Server, srv BlogServiceServer) {
@@ -2064,6 +2086,24 @@ func _BlogService_FetchBlog_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BlogService_UpdateBlog_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateBlogRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(BlogServiceServer).UpdateBlog(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/blog.BlogService/UpdateBlog",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(BlogServiceServer).UpdateBlog(ctx, req.(*UpdateBlogRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _BlogService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "blog.BlogService",
 	HandlerType: (*BlogServiceServer)(nil),
@@ -2091,6 +2131,10 @@ var _BlogService_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FetchBlog",
 			Handler:    _BlogService_FetchBlog_Handler,
+		},
+		{
+			MethodName: "UpdateBlog",
+			Handler:    _BlogService_UpdateBlog_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

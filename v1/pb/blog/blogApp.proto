@@ -140,4 +140,6 @@ service BlogService {
   rpc CreateBlog (CreateBlogRequest) returns (CreateBlogResponse){};
   // A unary RPC to fetch a single blog
   rpc FetchBlog (ReadBlogRequest) returns (ReadBlogResponse){};
+  // A unary RPC to update a blog, return NOTFOUND if not found
+  rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse){};
 }
