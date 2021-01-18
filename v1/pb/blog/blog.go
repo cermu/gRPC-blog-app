@@ -76,11 +76,11 @@ func (*Server) CreateBlog(_ context.Context, req *CreateBlogRequest) (*CreateBlo
 	//}
 	return &CreateBlogResponse{
 		Blog: &Blog{
-			Id:            oid.Hex(),
-			Title:         blog.GetTitle(),
-			Content:       blog.GetContent(),
-			WriterEmail:   blog.GetWriterEmail(),
-			Created:       creationTime.String(),
+			Id:          oid.Hex(),
+			Title:       blog.GetTitle(),
+			Content:     blog.GetContent(),
+			WriterEmail: blog.GetWriterEmail(),
+			Created:     creationTime.String(),
 		},
 	}, nil
 }
@@ -181,9 +181,7 @@ func (*Server) UpdateBlog(_ context.Context, req *UpdateBlogRequest) (*UpdateBlo
 	blogItem.WriterEmail = blogMessage.GetWriterEmail()
 	blogItem.Updated = updateTime
 
-	doc := bson.M{
-		"$set": blogItem,
-	}
+	doc := bson.M{"$set": blogItem}
 
 	_, updateErr := utl.GetMongoDB().Collection("blog").UpdateOne(context.Background(), filter, doc)
 	if updateErr != nil {
@@ -192,12 +190,42 @@ func (*Server) UpdateBlog(_ context.Context, req *UpdateBlogRequest) (*UpdateBlo
 	}
 	return &UpdateBlogResponse{
 		Blog: &Blog{
-			Id: blogItem.ID.Hex(),
-			Title: blogItem.Title,
-			Content: blogItem.Content,
+			Id:          blogItem.ID.Hex(),
+			Title:       blogItem.Title,
+			Content:     blogItem.Content,
 			WriterEmail: blogItem.WriterEmail,
-			Created: blogItem.Created.String(),
-			Updated: blogItem.Updated.String(),
+			Created:     blogItem.Created.String(),
+			Updated:     blogItem.Updated.String(),
 		},
+	}, nil
+}
+
+// DeleteBlog method
+// implementing BlogServiceServer interface from blogApp.pb.go
+func (*Server) DeleteBlog(_ context.Context, req *DeleteBlogRequest) (*DeleteBlogResponse, error) {
+	log.Printf("INFO | DeleteBlog method was invoked with request: %v\n", req)
+
+	// retrieve blog id from the request
+	blogId := req.GetBlogId()
+	oid, err := primitive.ObjectIDFromHex(blogId)
+	if err != nil {
+		return nil, status.Errorf(codes.InvalidArgument,
+			fmt.Sprintf("ERROR | Converting string blog id to oid failed with message: %v", err))
+	}
+
+	filter := bson.M{"_id": oid}
+	result, delErr := utl.GetMongoDB().Collection("blog").DeleteOne(context.Background(), filter)
+	if delErr != nil {
+		return nil, status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Deleting blog failied with message: %v", delErr))
+	}
+
+	if result.DeletedCount > 0 {
+		return &DeleteBlogResponse{
+			DeleteResponse: fmt.Sprintf("Blog: %v was deleted successfully", blogId),
+		}, nil
+	}
+	return &DeleteBlogResponse{
+		DeleteResponse: "Nothing to delete",
 	}, nil
 }

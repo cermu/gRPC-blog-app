@@ -142,4 +142,6 @@ service BlogService {
   rpc FetchBlog (ReadBlogRequest) returns (ReadBlogResponse){};
   // A unary RPC to update a blog, return NOTFOUND if not found
   rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse){};
+  // A unary RPC to delete a blog, return NOTFOUND if not found
+  rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogResponse){};
 }

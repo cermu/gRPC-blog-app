@@ -37,7 +37,8 @@ func main() {
 	// allAuthors(c)
 	// createBlog(c)
 	// fetchBlog(c)
-	updateBlog(c)
+	// updateBlog(c)
+	deleteBlog(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -198,10 +199,10 @@ func updateBlog(c blog.BlogServiceClient) {
 	log.Println("INFO | Starting an UpdateBlog unary gRPC")
 
 	blogMessage := &blog.Blog{
-		Id:          "600053ed2e40e9205e22a717",
-		Title:       "Oppo Reno4",
-		Content:     "CHeap smart phone for all you may need.",
-		WriterEmail: []string{"bar@gmail.com"},
+		Id:          "60004d481690e18d76efdec8",
+		Title:       "Beyond the Lenses",
+		Content:     "Journalism is more than just a camera.",
+		WriterEmail: []string{"jdoe@gmail.com", "janedoe@yahoo.com"},
 	}
 	updateBlogReq := &blog.UpdateBlogRequest{
 		Blog: blogMessage,
@@ -212,4 +213,20 @@ func updateBlog(c blog.BlogServiceClient) {
 		log.Println(err)
 	}
 	log.Printf("INFO | Response from UpdateBlog gRPC: %v\n", response.GetBlog())
+}
+
+// deleteBlog private function that calls DeleteBlog gRPC method on gRPC server
+func deleteBlog(c blog.BlogServiceClient) {
+	log.Println("INFO | Starting a DeleteAuthor unary gRPC")
+
+	deleteBlogRequest := &blog.DeleteBlogRequest{
+		BlogId: "5ff462d24bd31e084c2724d8",
+	}
+
+	response, err := c.DeleteBlog(context.Background(), deleteBlogRequest)
+	if err != nil {
+		// log.Println(err)
+		log.Fatal(err)
+	}
+	log.Printf("INFO | Response from DeleteBlog gRPC: %v\n", response.GetDeleteResponse())
 }
