@@ -229,3 +229,54 @@ func (*Server) DeleteBlog(_ context.Context, req *DeleteBlogRequest) (*DeleteBlo
 		DeleteResponse: "Nothing to delete",
 	}, nil
 }
+
+// AllBlog method, a server streaming scenario
+func (*Server) AllBlog(_ *AllBlogRequest, stream BlogService_AllBlogServer) error {
+	log.Println("INFO | AllBlog server streaming method was invoked")
+
+	ctx := context.Background()
+	filter := bson.M{} // pass an empty filter to fetch all records
+	cur, err := utl.GetMongoDB().Collection("blog").Find(ctx, filter)
+	if err != nil {
+		return status.Errorf(codes.Internal,
+			fmt.Sprintf("WARNING | Failed to fetch Blog items from the DB: %v", err))
+	}
+
+	// close the cursor after use
+	go func () {
+		if err := cur.Close(ctx); err != nil {
+			log.Printf("WARNING | CLosing MongoDB cursor failed with message: %v\n", err)
+		}
+	}()
+
+	for cur.Next(ctx) {
+		blogItem := &models.BlogItem{}
+		if err := cur.Decode(blogItem); err != nil {
+			return status.Errorf(codes.Internal, fmt.Sprintf("ERROR | Decoding MongoDB object failed with message: %v", err))
+		}
+
+		// send the blog items via a stream
+		response := &AllBlogResponse{
+			Blog: &Blog{
+				Id: blogItem.ID.Hex(),
+				Title: blogItem.Title,
+				Content: blogItem.Content,
+				WriterEmail: blogItem.WriterEmail,
+				Created: blogItem.Created.String(),
+				Updated: blogItem.Updated.String(),
+			},
+		}
+
+		streamErr := stream.Send(response)
+		if streamErr != nil {
+			log.Printf("WARNING | Sending server stream response failed with message: %v\n", streamErr)
+		}
+	}
+
+	// handle cur.Err()
+	if err := cur.Err(); err != nil {
+		return status.Errorf(codes.Internal,
+			fmt.Sprintf("ERROR | The following MongoDB cursor error has occurred: %v", err))
+	}
+	return nil
+}

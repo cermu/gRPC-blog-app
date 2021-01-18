@@ -144,4 +144,6 @@ service BlogService {
   rpc UpdateBlog (UpdateBlogRequest) returns (UpdateBlogResponse){};
   // A unary RPC to delete a blog, return NOTFOUND if not found
   rpc DeleteBlog (DeleteBlogRequest) returns (DeleteBlogResponse){};
+  // A server streaming RPC to return all blog
+  rpc AllBlog (AllBlogRequest) returns (stream AllBlogResponse){};
 }

@@ -1352,7 +1352,7 @@ var file_v1_pb_blog_blogApp_proto_rawDesc = []byte{
 	0x31, 0x0a, 0x0f, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x12, 0x1e, 0x0a, 0x04, 0x62, 0x6c, 0x6f, 0x67, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x0a, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x04, 0x62, 0x6c,
-	0x6f, 0x67, 0x32, 0xfa, 0x04, 0x0a, 0x0b, 0x42, 0x6c, 0x6f, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x6f, 0x67, 0x32, 0xb6, 0x05, 0x0a, 0x0b, 0x42, 0x6c, 0x6f, 0x67, 0x53, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x12, 0x47, 0x0a, 0x0c, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41, 0x75, 0x74, 0x68,
 	0x6f, 0x72, 0x12, 0x19, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x41, 0x75, 0x74, 0x68, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e,
@@ -1391,9 +1391,13 @@ var file_v1_pb_blog_blogApp_proto_rawDesc = []byte{
 	0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x67, 0x12, 0x17, 0x2e, 0x62, 0x6c, 0x6f,
 	0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75,
 	0x65, 0x73, 0x74, 0x1a, 0x18, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42,
-	0x0e, 0x5a, 0x0c, 0x2e, 0x2f, 0x76, 0x31, 0x2f, 0x70, 0x62, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x65, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12,
+	0x3a, 0x0a, 0x07, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x6f, 0x67, 0x12, 0x14, 0x2e, 0x62, 0x6c, 0x6f,
+	0x67, 0x2e, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x6f, 0x67, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x1a, 0x15, 0x2e, 0x62, 0x6c, 0x6f, 0x67, 0x2e, 0x41, 0x6c, 0x6c, 0x42, 0x6c, 0x6f, 0x67, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x30, 0x01, 0x42, 0x0e, 0x5a, 0x0c, 0x2e,
+	0x2f, 0x76, 0x31, 0x2f, 0x70, 0x62, 0x2f, 0x62, 0x6c, 0x6f, 0x67, 0x62, 0x06, 0x70, 0x72, 0x6f,
+	0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1458,17 +1462,19 @@ var file_v1_pb_blog_blogApp_proto_depIdxs = []int32{
 	15, // 20: blog.BlogService.FetchBlog:input_type -> blog.ReadBlogRequest
 	17, // 21: blog.BlogService.UpdateBlog:input_type -> blog.UpdateBlogRequest
 	19, // 22: blog.BlogService.DeleteBlog:input_type -> blog.DeleteBlogRequest
-	4,  // 23: blog.BlogService.CreateAuthor:output_type -> blog.CreateAuthorResponse
-	6,  // 24: blog.BlogService.FetchAuthor:output_type -> blog.FetchAuthorResponse
-	8,  // 25: blog.BlogService.UpdateAuthor:output_type -> blog.UpdateAuthorResponse
-	10, // 26: blog.BlogService.DeleteAuthor:output_type -> blog.DeleteAuthorResponse
-	12, // 27: blog.BlogService.AllAuthors:output_type -> blog.AllAuthorsResponse
-	14, // 28: blog.BlogService.CreateBlog:output_type -> blog.CreateBlogResponse
-	16, // 29: blog.BlogService.FetchBlog:output_type -> blog.ReadBlogResponse
-	18, // 30: blog.BlogService.UpdateBlog:output_type -> blog.UpdateBlogResponse
-	20, // 31: blog.BlogService.DeleteBlog:output_type -> blog.DeleteBlogResponse
-	23, // [23:32] is the sub-list for method output_type
-	14, // [14:23] is the sub-list for method input_type
+	21, // 23: blog.BlogService.AllBlog:input_type -> blog.AllBlogRequest
+	4,  // 24: blog.BlogService.CreateAuthor:output_type -> blog.CreateAuthorResponse
+	6,  // 25: blog.BlogService.FetchAuthor:output_type -> blog.FetchAuthorResponse
+	8,  // 26: blog.BlogService.UpdateAuthor:output_type -> blog.UpdateAuthorResponse
+	10, // 27: blog.BlogService.DeleteAuthor:output_type -> blog.DeleteAuthorResponse
+	12, // 28: blog.BlogService.AllAuthors:output_type -> blog.AllAuthorsResponse
+	14, // 29: blog.BlogService.CreateBlog:output_type -> blog.CreateBlogResponse
+	16, // 30: blog.BlogService.FetchBlog:output_type -> blog.ReadBlogResponse
+	18, // 31: blog.BlogService.UpdateBlog:output_type -> blog.UpdateBlogResponse
+	20, // 32: blog.BlogService.DeleteBlog:output_type -> blog.DeleteBlogResponse
+	22, // 33: blog.BlogService.AllBlog:output_type -> blog.AllBlogResponse
+	24, // [24:34] is the sub-list for method output_type
+	14, // [14:24] is the sub-list for method input_type
 	14, // [14:14] is the sub-list for extension type_name
 	14, // [14:14] is the sub-list for extension extendee
 	0,  // [0:14] is the sub-list for field type_name
@@ -1807,6 +1813,8 @@ type BlogServiceClient interface {
 	UpdateBlog(ctx context.Context, in *UpdateBlogRequest, opts ...grpc.CallOption) (*UpdateBlogResponse, error)
 	// A unary RPC to delete a blog, return NOTFOUND if not found
 	DeleteBlog(ctx context.Context, in *DeleteBlogRequest, opts ...grpc.CallOption) (*DeleteBlogResponse, error)
+	// A server streaming RPC to return all blog
+	AllBlog(ctx context.Context, in *AllBlogRequest, opts ...grpc.CallOption) (BlogService_AllBlogClient, error)
 }
 
 type blogServiceClient struct {
@@ -1921,6 +1929,38 @@ func (c *blogServiceClient) DeleteBlog(ctx context.Context, in *DeleteBlogReques
 	return out, nil
 }
 
+func (c *blogServiceClient) AllBlog(ctx context.Context, in *AllBlogRequest, opts ...grpc.CallOption) (BlogService_AllBlogClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_BlogService_serviceDesc.Streams[1], "/blog.BlogService/AllBlog", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &blogServiceAllBlogClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type BlogService_AllBlogClient interface {
+	Recv() (*AllBlogResponse, error)
+	grpc.ClientStream
+}
+
+type blogServiceAllBlogClient struct {
+	grpc.ClientStream
+}
+
+func (x *blogServiceAllBlogClient) Recv() (*AllBlogResponse, error) {
+	m := new(AllBlogResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // BlogServiceServer is the server API for BlogService service.
 type BlogServiceServer interface {
 	// A unary RPC to create an author
@@ -1941,6 +1981,8 @@ type BlogServiceServer interface {
 	UpdateBlog(context.Context, *UpdateBlogRequest) (*UpdateBlogResponse, error)
 	// A unary RPC to delete a blog, return NOTFOUND if not found
 	DeleteBlog(context.Context, *DeleteBlogRequest) (*DeleteBlogResponse, error)
+	// A server streaming RPC to return all blog
+	AllBlog(*AllBlogRequest, BlogService_AllBlogServer) error
 }
 
 // UnimplementedBlogServiceServer can be embedded to have forward compatible implementations.
@@ -1973,6 +2015,9 @@ func (*UnimplementedBlogServiceServer) UpdateBlog(context.Context, *UpdateBlogRe
 }
 func (*UnimplementedBlogServiceServer) DeleteBlog(context.Context, *DeleteBlogRequest) (*DeleteBlogResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteBlog not implemented")
+}
+func (*UnimplementedBlogServiceServer) AllBlog(*AllBlogRequest, BlogService_AllBlogServer) error {
+	return status.Errorf(codes.Unimplemented, "method AllBlog not implemented")
 }
 
 func RegisterBlogServiceServer(s *grpc.Server, srv BlogServiceServer) {
@@ -2144,6 +2189,27 @@ func _BlogService_DeleteBlog_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _BlogService_AllBlog_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(AllBlogRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(BlogServiceServer).AllBlog(m, &blogServiceAllBlogServer{stream})
+}
+
+type BlogService_AllBlogServer interface {
+	Send(*AllBlogResponse) error
+	grpc.ServerStream
+}
+
+type blogServiceAllBlogServer struct {
+	grpc.ServerStream
+}
+
+func (x *blogServiceAllBlogServer) Send(m *AllBlogResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
 var _BlogService_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "blog.BlogService",
 	HandlerType: (*BlogServiceServer)(nil),
@@ -2185,6 +2251,11 @@ var _BlogService_serviceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "AllAuthors",
 			Handler:       _BlogService_AllAuthors_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "AllBlog",
+			Handler:       _BlogService_AllBlog_Handler,
 			ServerStreams: true,
 		},
 	},

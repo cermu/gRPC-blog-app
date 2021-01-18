@@ -38,7 +38,8 @@ func main() {
 	// createBlog(c)
 	// fetchBlog(c)
 	// updateBlog(c)
-	deleteBlog(c)
+	// deleteBlog(c)
+	allBlog(c)
 }
 
 // createAuthor private function that calls CreateAuthor gRPC method on gRPC server
@@ -217,7 +218,7 @@ func updateBlog(c blog.BlogServiceClient) {
 
 // deleteBlog private function that calls DeleteBlog gRPC method on gRPC server
 func deleteBlog(c blog.BlogServiceClient) {
-	log.Println("INFO | Starting a DeleteAuthor unary gRPC")
+	log.Println("INFO | Starting a DeleteBlog unary gRPC")
 
 	deleteBlogRequest := &blog.DeleteBlogRequest{
 		BlogId: "5ff462d24bd31e084c2724d8",
@@ -229,4 +230,29 @@ func deleteBlog(c blog.BlogServiceClient) {
 		log.Fatal(err)
 	}
 	log.Printf("INFO | Response from DeleteBlog gRPC: %v\n", response.GetDeleteResponse())
+}
+
+// allBlog private function that streams AllBlog gRPC method on gRPC server
+func allBlog(c blog.BlogServiceClient) {
+	log.Printf("INFO | Starting an AllBlog server streaming gRPC...\n")
+
+	allBlogReq := &blog.AllBlogRequest{}
+
+	stream, err := c.AllBlog(context.Background(), allBlogReq)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	for {
+		response, err := stream.Recv()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			log.Println(err)
+		}
+		log.Printf("INFO | Response from AllBlog server stream gRPC: %v\n", response.GetBlog())
+	}
+	log.Println("INFO | Streaming Blog from AllBlog gRPC has completed")
 }
